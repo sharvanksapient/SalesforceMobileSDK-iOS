@@ -43,7 +43,7 @@
         self.navBarTitleColor = [UIColor whiteColor];
         self.navBarTintColor = [UIColor whiteColor];
         self.navBarFont = nil;
-        _showNavbar = YES;
+        _showNavbar = NO;
         _showSettingsIcon = NO;
     }
     return self;
