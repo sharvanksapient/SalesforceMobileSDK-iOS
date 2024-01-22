@@ -318,6 +318,11 @@
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
         _view.UIDelegate = self;
+        
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+        [spinner setCenter:self.view.center];
+        [self.view addSubview:spinner];
+        spinner.tag = 1010;
     }
     return _view;
 }
@@ -802,6 +807,11 @@
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
+    
+    UIActivityIndicatorView *spinner = [webView viewWithTag:1010];
+    if (spinner != nil) {
+        [spinner startAnimating];
+    }
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
@@ -816,6 +826,11 @@
     if (!self.initialRequestLoaded) {
         self.initialRequestLoaded = YES;
         [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
+    }
+    
+    UIActivityIndicatorView *spinner = [webView viewWithTag:1010];
+    if (spinner != nil) {
+        [spinner stopAnimating];
     }
 }
 
@@ -869,6 +884,11 @@
     } else {
         [SFSDKCoreLogger d:[self class] format:@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+    }
+    
+    UIActivityIndicatorView *spinner = [webView viewWithTag:1010];
+    if (spinner != nil) {
+        [spinner stopAnimating];
     }
 }
 
