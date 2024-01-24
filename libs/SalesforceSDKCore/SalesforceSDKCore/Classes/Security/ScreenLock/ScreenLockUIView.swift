@@ -33,12 +33,16 @@ struct ScreenLockUIView: View {
     @State private var hasError = false
     @State private var canEvaluatePolicy = false
     @State private var errorText = ""
+    @State private var isShowLoader = false
     
     var body: some View {
         VStack(alignment: .center, content: {
             HStack {
                 if hasError {
-                    Button(action: { logout() },
+                    Button(action: {
+                        isShowLoader = true
+                        logout()
+                    },
                            label: {
                         Text(SFSDKResourceUtils.localizedString("logoutButtonTitle"))
                             .foregroundColor(Color(UIColor.salesforceBlue))
@@ -73,6 +77,12 @@ struct ScreenLockUIView: View {
         .onAppear(perform: {
             showBiometic()
         })
+        .overlay(alignment: .center) {
+            if isShowLoader {
+                ProgressView()
+                    .scaleEffect(2)
+            }
+        }
     }
     
     func showBiometic() {

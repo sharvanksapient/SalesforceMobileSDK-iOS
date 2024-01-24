@@ -153,7 +153,7 @@ static dispatch_once_t pred;
         if (!sfRestApi) {
             if (user.loginState != SFUserAccountLoginStateLoggedIn) {
                 [SFSDKCoreLogger w:[self class] format:@"%@ A user account must be in the SFUserAccountLoginStateLoggedIn state in order to create a SFRestAPI instance for a user.", NSStringFromSelector(_cmd)];
-                return nil;
+               // return nil;
             }
             sfRestApi = [[SFRestAPI alloc] initWithUser:user];
             [sfRestApiList setObject:sfRestApi forKey:key];
